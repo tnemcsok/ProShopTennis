@@ -1,0 +1,54 @@
+enum Permission {
+  ADMIN
+  USER
+}
+
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [Permission] @scalarList(strategy: RELATION)
+}
+
+type Player {
+  id: ID! @id
+  name: String!
+  points: Int!
+  competitions: Int!
+  golds: Int
+  silvers: Int
+  user: User
+  image: String
+  competition: [Competition]
+}
+
+type Competition {
+  id: ID! @id
+  type: String!
+  date: String!
+  result: [String]! @scalarList(strategy: RELATION)
+  image: String
+  review: String!
+  firstPoint: Int!
+  createdAt: DateTime! @createdAt
+}
+
+type ScheduledComp {
+  id: ID! @id
+  type: String!
+  date: String!
+  place: String!
+  start: String!
+  createdAt: DateTime! @createdAt
+}
+
+type Entrant {
+  id: ID! @id
+  name: String!
+  phonenumber: String
+  email: String
+  scheduledComps: [ScheduledComp!]!
+}

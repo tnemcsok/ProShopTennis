@@ -1,0 +1,54 @@
+# import * from './generated/prisma.graphql'
+
+type SuccessMessage {
+  message: String
+}
+
+type Mutation {
+  createPlayer(
+    name: String!
+    points: Int!
+    competitions: Int!
+    golds: Int
+    silvers: Int
+  ): Player!
+
+  createCompetition(
+    date: String!
+    result: [String]!
+    image: String
+    review: String!
+    firstPoint: Int!
+    type: String!
+  ): Competition
+
+  createScheduledComp(
+    type: String!
+    date: String!
+    start: String!
+    place: String!
+    entrantNames: [String]
+  ): ScheduledComp
+
+  updateScheduledComp(
+    id: ID!
+    entrant: String!
+    phonenumber: String
+    email: String
+  ): ScheduledComp
+
+  signup(email: String!, password: String!, name: String!): User!
+  signin(email: String!, password: String!): User!
+  signout: SuccessMessage
+}
+
+type Query {
+  player(where: PlayerWhereUniqueInput!): Player
+  players(where: PlayerWhereInput, orderBy: PlayerOrderByInput): [Player]!
+  competitions(orderBy: CompetitionOrderByInput, first: Int): [Competition]!
+  scheduledComps(orderBy: ScheduledCompOrderByInput): [ScheduledComp]!
+  competition(where: CompetitionWhereUniqueInput!): Competition
+  scheduledComp(where: ScheduledCompWhereUniqueInput!): ScheduledComp
+  entrants(where: EntrantWhereInput): [Entrant]!
+  me: User
+}
